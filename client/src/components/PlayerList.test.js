@@ -58,6 +58,10 @@ test("can sort by country", async () => {
 
     const playerCards = getAllByText(/search interest/i);
     within(playerCards[1]).getByText(/18/i);
+    within(playerCards[2]).getByText(/100/i);
+    within(playerCards[3]).getByText(/99/i);
+    within(playerCards[4]).getByText(/11/i);
+    within(playerCards[5]).getByText(/9/i);
 });
 
 test("can sort by name", async () => {
@@ -69,7 +73,11 @@ test("can sort by name", async () => {
     });
 
     const playerCards = getAllByText(/search interest/i);
+    within(playerCards[1]).getByText(/100/i);
     within(playerCards[2]).getByText(/9/i);
+    within(playerCards[3]).getByText(/18/i);
+    within(playerCards[4]).getByText(/99/i);
+    within(playerCards[5]).getByText(/11/i);
 });
 
 test("can sort by search interest", async () => {
@@ -82,5 +90,9 @@ test("can sort by search interest", async () => {
     });
 
     const playerCards = getAllByText(/search interest/i);
+    within(playerCards[1]).getByText(/100/i);
     within(playerCards[2]).getByText(/99/i);
+    within(playerCards[3]).getByText(/18/i);
+    within(playerCards[4]).getByText(/11/i);
+    within(playerCards[5]).getByText(/9/i);
 });
