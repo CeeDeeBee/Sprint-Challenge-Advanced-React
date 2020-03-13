@@ -7,7 +7,6 @@ export const useLocalStorage = (key, initialValue) => {
     });
 
     const setData = data => {
-        console.log(data);
         setStoredData(data);
         localStorage.setItem(key, JSON.stringify(data));
     }

@@ -1,9 +1,11 @@
 import React from "react";
 import PlayerCard from "./PlayerCard";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useDarkMode } from "../hooks/useDarkMode";
 
 const PlayerList = ({ data, setData }) => {
     const [sortType, setSortType] = useLocalStorage('sortType', 'searchInterest');
+    const [isDarkMode, setIsDarkMode] = useDarkMode();
 
     const compareFunctions = {
         name: (a, b) => {
@@ -37,8 +39,13 @@ const PlayerList = ({ data, setData }) => {
         setData([...data].sort(compareFunctions[e.target.value]));
     }
 
+    const toggleDarkMode = () => {
+        setIsDarkMode(!isDarkMode);
+    }
+
     return (
         <div className="player-list-wrapper">
+            <div className="dark-toggle" onClick={toggleDarkMode}>Toggle Dark Mode</div>
             <label htmlFor="player-sort">Sort By </label>
             <select name="player-sort" id="player-sort" value={sortType} onChange={handleChange}>
                 <option value="searchInterest">Search Interest</option>
