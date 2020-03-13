@@ -9,7 +9,7 @@ let data = [{ name: "Alex Morgan", country: "United States", searches: 100, id: 
 { name: "Rose Lavelle", country: "United States", searches: 11, id: 3 },
 { name: "Carli Lloyd", country: "United States", searches: 9, id: 4 }]
 
-const setData = () => {
+const countrySort = () => {
     data.sort((a, b) => {
         if (a.country < b.country) {
             return -1;
@@ -22,6 +22,25 @@ const setData = () => {
     })
 }
 
+const nameSort = () => {
+    data.sort((a, b) => {
+        if (a.name < b.name) {
+            return -1;
+        }
+        if (a.name > b.name) {
+            return 1;
+        }
+
+        return 0;
+    });
+}
+
+const searchSort = () => {
+    data.sort((a, b) => {
+        return b.searches - a.searches;
+    });
+}
+
 test("all player cards render", () => {
     const { getAllByText } = render(<PlayerList data={data} />);
 
@@ -29,8 +48,8 @@ test("all player cards render", () => {
     expect(playerCards).toHaveLength(6);
 });
 
-test("can change sort order", async () => {
-    const { getByLabelText, getAllByText, getByText } = render(<PlayerList data={data} setData={setData} />);
+test("can sort by country", async () => {
+    const { getByLabelText, getAllByText, getByText } = render(<PlayerList data={data} setData={countrySort} />);
 
     const sortSelect = getByLabelText(/sort by/i);
     await act(async () => {
@@ -39,4 +58,29 @@ test("can change sort order", async () => {
 
     const playerCards = getAllByText(/search interest/i);
     within(playerCards[1]).getByText(/18/i);
-})
+});
+
+test("can sort by name", async () => {
+    const { getByLabelText, getAllByText, getByText } = render(<PlayerList data={data} setData={nameSort} />);
+
+    const sortSelect = getByLabelText(/sort by/i);
+    await act(async () => {
+        fireEvent.change(sortSelect, { target: { value: 'name' } });
+    });
+
+    const playerCards = getAllByText(/search interest/i);
+    within(playerCards[2]).getByText(/9/i);
+});
+
+test("can sort by search interest", async () => {
+    const { getByLabelText, getAllByText, getByText } = render(<PlayerList data={data} setData={searchSort} />);
+
+    const sortSelect = getByLabelText(/sort by/i);
+    await act(async () => {
+        fireEvent.change(sortSelect, { target: { value: 'name' } });
+        fireEvent.change(sortSelect, { target: { value: 'searchInterest' } });
+    });
+
+    const playerCards = getAllByText(/search interest/i);
+    within(playerCards[2]).getByText(/99/i);
+});
